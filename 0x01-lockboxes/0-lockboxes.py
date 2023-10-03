@@ -34,5 +34,3 @@ def can_unlock_all(boxes):
 
     # Check if all boxes have been opened
     return len(opened_boxes) == n
-
-if __name__ == "__main__":
