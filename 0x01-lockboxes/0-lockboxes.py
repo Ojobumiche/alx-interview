@@ -1,26 +1,42 @@
 #!/usr/bin/python3
+"""A python module that determines if all boxes can be opened
+   from a list of lists
+"""
 
-def canUnlockAll(boxes):
-    if not boxes or not boxes[0]:
-        """ If there are no boxes or the first box is empty, we cannot open any box"""
+
+def canUnlockAll(boxes=[]):
+    """A function that returns True of all box in
+    boxes can be opend
+    """
+    if not boxes:
         return False
 
-    n = len(boxes)
-    """Initialize a set to keep track of the boxes that can be opened"""
-    opened_boxes = set([0])
+    keys = set([0])
+    for box_id, box in enumerate(boxes):
+        for key in box:
+            if key < len(boxes) and key != box_id:
+                keys.add(key)
 
-    """ Use a stack to perform depth-first search"""
-    stack = [0]
+    if len(keys) != len(boxes):
+        return False
 
-    while stack:
-        current_box = stack.pop()
+    return True
 
-        """Iterate through the keys in the current box"""
-        for key in boxes[current_box]:
-            """If the key corresponds to a valid box and that box hasn't been opened yet"""
-            if 0 <= key < n and key not in opened_boxes:
-                opened_boxes.add(key)
-                stack.append(key)
 
-    """Check if all boxes have been opened"""
-    return len(opened_boxes) == n
+if __name__ == '__main__':
+    boxes = [
+                [1, 3],
+                [2],
+                [3, 0],
+                [1, 2, 3],
+            ]
+    print(unlockBoxes(boxes))
+
+    boxes = [[1], [2], [3], [4], []]
+    print(canUnlockAll(boxes))
+
+    boxes = [[1, 4, 6], [2], [0, 4, 1], [5, 6, 2], [3], [4, 1], [6]]
+    print(unlockBoxes(boxes))
+
+    boxes = [[1, 4], [2], [0, 4, 1], [3], [], [4, 1], [5, 6]]
+    print(unlockBoxes(boxes))
