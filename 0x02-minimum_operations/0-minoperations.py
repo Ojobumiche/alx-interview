@@ -1,42 +1,33 @@
 #!/usr/bin/python3
-"""A python module that determines if all boxes can be opened
-   from a list of lists
-"""
+"""0-minoperations"""
 
 
-def canUnlockAll(boxes=[]):
-    """A function that returns True of all box in
-    boxes can be opend
+def minOperations(n):
     """
-    if not boxes:
-        return False
-
-    keys = set([0])
-    for box_id, box in enumerate(boxes):
-        for key in box:
-            if key < len(boxes) and key != box_id:
-                keys.add(key)
-
-    if len(keys) != len(boxes):
-        return False
-
-    return True
+    minOperations
+    Gets fewest # of operations needed to result in exactly n H characters
+    """
+    if (n < 2):
+        return 0
+    ops, root = 0, 2
+    while root <= n:
+        if n % root == 0:
+            ops += root
+            n = n / root
+            root -= 1
+        root += 1
+    return ops
 
 
 if __name__ == '__main__':
-    boxes = [
-                [1, 3],
-                [2],
-                [3, 0],
-                [1, 2, 3],
-            ]
-    print(unlockBoxes(boxes))
+    from random import randint
+    from time import time
 
-    boxes = [[1], [2], [3], [4], []]
-    print(canUnlockAll(boxes))
+    start_time = time()
 
-    boxes = [[1, 4, 6], [2], [0, 4, 1], [5, 6, 2], [3], [4, 1], [6]]
-    print(unlockBoxes(boxes))
+    for i in range(10):
+        n = randint(2, 100)
+        print("Min # of operations to reach {} char: {}".
+              format(n, minOperations(n)))
 
-    boxes = [[1, 4], [2], [0, 4, 1], [3], [], [4, 1], [5, 6]]
-    print(unlockBoxes(boxes))
+    print(f'==> Program completed in {time() - start_time:.3f}s')
